@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>لوحة التحكم - Binary Trader DZ</title>
+  <link rel="icon" href="imgs/258de5ad-9442-4325-9296-ba2650d2c59a.png" type="image/png">
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/charts.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+  <header>
+    <div class="container header-content">
+      <div class="logo">
+        <img src="imgs/258de5ad-9442-4325-9296-ba2650d2c59a.png" alt="شعار Binary Trader DZ" class="site-logo">
+        <h1>Binary Trader DZ</h1>
+      </div>
+      <ul class="nav-menu">
+        <li><a href="dashboard.html" class="active">لوحة التحكم</a></li>
+        <li><a href="chart-upload-advanced.html">تحليل الشارت</a></li>
+        <li><a href="performance.html">تقييم الأداء</a></li>
+        <li><a href="settings.html">الإعدادات</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="card mb-4">
+      <div class="card-header">
+        <h2 class="card-title">نظرة عامة</h2>
+        <div class="d-flex">
+          <button class="btn btn-sm" id="refresh-btn">
+            <i class="fas fa-sync-alt btn-icon"></i>
+            تحديث
+          </button>
+        </div>
+      </div>
+      
+      <div class="grid grid-4">
+        <div class="indicator">
+          <div class="indicator-title">دقة التنبؤات</div>
+          <div class="indicator-value" id="accuracy-value">78%</div>
+          <div class="progress">
+            <div class="progress-bar progress-primary" style="width: 78%"></div>
+          </div>
+        </div>
+        
+        <div class="indicator">
+          <div class="indicator-title">عدد التنبؤات</div>
+          <div class="indicator-value" id="predictions-count">124</div>
+        </div>
+        
+        <div class="indicator">
+          <div class="indicator-title">اتجاه السوق الحالي</div>
+          <div class="indicator-value indicator-up" id="market-trend">
+            <div class="arrow-up"></div>
+            <span>صاعد</span>
+          </div>
+        </div>
+        
+        <div class="indicator">
+          <div class="indicator-title">قوة الاتجاه</div>
+          <div class="indicator-value" id="trend-strength">65%</div>
+          <div class="progress">
+            <div class="progress-bar progress-secondary" style="width: 65%"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid grid-2">
+      <div class="card">
+        <div class="card-header">
+          <h2 class="card-title">آخر التحليلات</h2>
+          <button class="btn btn-sm" id="view-all-btn">عرض الكل</button>
+        </div>
+        
+        <div class="table-responsive">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>التاريخ</th>
+                <th>النمط</th>
+                <th>الاتجاه</th>
+                <th>الثقة</th>
+                <th>النتيجة</th>
+              </tr>
+            </thead>
+            <tbody id="analysis-table-body">
+              <tr>
+                <td>2023-11-15</td>
+                <td>نمط البلع الصاعد</td>
+                <td><span class="indicator-up"><div class="arrow-up"></div><span>صعود</span></span></td>
+                <td>85%</td>
+                <td><span class="indicator-up"><i class="fas fa-check-circle"></i></span></td>
+              </tr>
+              <tr>
+                <td>2023-11-14</td>
+                <td>نمط الرأس والكتفين</td>
+                <td><span class="indicator-down"><div class="arrow-down"></div><span>هبوط</span></span></td>
+                <td>72%</td>
+                <td><span class="indicator-down"><i class="fas fa-check-circle"></i></span></td>
+              </tr>
+              <tr>
+                <td>2023-11-13</td>
+                <td>المثلث المتماثل</td>
+                <td><span class="indicator-up"><div class="arrow-up"></div><span>صعود</span></span></td>
+                <td>68%</td>
+                <td><span class="indicator-down"><i class="fas fa-times-circle"></i></span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <h2 class="card-title">أداء المؤشرات</h2>
+        </div>
+        
+        <div class="chart-container" id="indicators-performance-chart">
+          <!-- سيتم إضافة الرسم البياني هنا -->
+        </div>
+      </div>
+    </div>
+
+    <div class="card mt-4">
+      <div class="card-header">
+        <h2 class="card-title">تحليل الشارت</h2>
+        <div class="d-flex">
+          <button class="btn btn-secondary btn-sm" id="upload-chart-btn">
+            <i class="fas fa-upload btn-icon"></i>
+            تحميل شارت
+          </button>
+        </div>
+      </div>
+      
+      <div class="chart-wrapper">
+        <div class="chart-header">
+          <div class="chart-title">تحليل الشارت مع خطوط الدعم والمقاومة</div>
+          <div class="chart-controls">
+            <button class="chart-control active">الشموع</button>
+            <button class="chart-control">خط</button>
+            <button class="chart-control">منطقة</button>
+          </div>
+        </div>
+        
+        <div class="timeframe-controls">
+          <button class="timeframe-btn">M1</button>
+          <button class="timeframe-btn active">M5</button>
+          <button class="timeframe-btn">M15</button>
+          <button class="timeframe-btn">M30</button>
+          <button class="timeframe-btn">H1</button>
+        </div>
+        
+        <div class="candlestick-chart" id="main-chart">
+          <!-- سيتم إضافة الرسم البياني هنا -->
+        </div>
+        
+        <div class="zoom-controls">
+          <button class="zoom-btn"><i class="fas fa-plus"></i></button>
+          <button class="zoom-btn"><i class="fas fa-minus"></i></button>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid grid-2 mt-4">
+      <div class="card">
+        <div class="card-header">
+          <h2 class="card-title">خطوط الدعم والمقاومة</h2>
+        </div>
+        
+        <div id="resistance-levels">
+          <div class="level resistance">
+            <span>مقاومة 3: 1.2920</span>
+            <span>القوة: 4</span>
+          </div>
+          <div class="level resistance">
+            <span>مقاومة 2: 1.2850</span>
+            <span>القوة: 3</span>
+          </div>
+          <div class="level resistance">
+            <span>مقاومة 1: 1.2820</span>
+            <span>القوة: 2</span>
+          </div>
+        </div>
+        
+        <div class="text-center p-3">
+          <div>السعر الحالي: <span id="current-price">1.2800</span></div>
+        </div>
+        
+        <div id="support-levels">
+          <div class="level support">
+            <span>دعم 1: 1.2750</span>
+            <span>القوة: 2</span>
+          </div>
+          <div class="level support">
+            <span>دعم 2: 1.2680</span>
+            <span>القوة: 3</span>
+          </div>
+          <div class="level support">
+            <span>دعم 3: 1.2600</span>
+            <span>القوة: 4</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <h2 class="card-title">تحليل الشمعة القادمة</h2>
+        </div>
+        
+        <div class="mb-3">
+          <div class="d-flex justify-between mb-2">
+            <div>النمط المكتشف:</div>
+            <div id="pattern-name">نمط البلع الصاعد</div>
+          </div>
+          
+          <div class="d-flex justify-between mb-2">
+            <div>الاتجاه المتوقع:</div>
+            <div id="prediction-direction" class="indicator-up">
+              <div class="arrow-up"></div>
+              <span>صعود</span>
+            </div>
+          </div>
+          
+          <div class="d-flex justify-between mb-2">
+            <div>مستوى الثقة:</div>
+            <div id="confidence-level">80%</div>
+          </div>
+          
+          <div>
+            <div class="mb-1">مستوى الثقة:</div>
+            <div class="progress">
+              <div class="progress-bar progress-primary" style="width: 80%"></div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="breakout-analysis p-3 rounded" style="background-color: var(--dark-medium);">
+          <h3 class="mb-2">تحليل الاختراق</h3>
+          <div id="breakout-type" class="mb-2">احتمالية اختراق المقاومة</div>
+          <div class="d-flex justify-between mb-2">
+            <div>احتمالية الاختراق:</div>
+            <div id="breakout-probability">75%</div>
+          </div>
+          <div class="progress mb-2">
+            <div class="progress-bar progress-secondary" style="width: 75%"></div>
+          </div>
+          <div class="d-flex justify-between">
+            <div>المستوى المستهدف:</div>
+            <div id="target-level">1.2920</div>
+          </div>
+        </div>
+        
+        <div class="mt-3">
+          <h3 class="mb-2">نقاط الدخول والخروج</h3>
+          <div class="trade-point">
+            <span class="point-label">نقطة الدخول:</span>
+            <span class="point-value entry" id="entry-point">1.2800</span>
+          </div>
+          <div class="trade-point">
+            <span class="point-label">الهدف:</span>
+            <span class="point-value target" id="target-point">1.2920</span>
+          </div>
+          <div class="trade-point">
+            <span class="point-label">وقف الخسارة:</span>
+            <span class="point-value stop" id="stop-loss">1.2750</span>
+          </div>
+          <div class="trade-point">
+            <span class="point-label">نسبة المخاطرة/المكافأة:</span>
+            <span class="point-value" id="risk-reward">2.4</span>
+          </div>
+          <div class="trade-point">
+            <span class="point-label">المدة المقترحة:</span>
+            <span class="point-value" id="recommended-duration">15 دقيقة</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="container footer-content">
+      <div>Binary Trader DZ &copy; 2025</div>
+      <ul class="footer-links">
+        <li><a href="#">المساعدة</a></li>
+        <li><a href="#">الشروط والأحكام</a></li>
+        <li><a href="#">سياسة الخصوصية</a></li>
+      </ul>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation"></script>
+  <script>
+    // سيتم إضافة الكود الخاص بالرسوم البيانية هنا
+    document.addEventListener('DOMContentLoaded', function() {
+      // إنشاء رسم بياني لأداء المؤشرات
+      const indicatorsCtx = document.getElementById('indicators-performance-chart');
+      const indicatorsChart = new Chart(indicatorsCtx, {
+        type: 'bar',
+        data: {
+          labels: ['RSI', 'MACD', 'Bollinger', 'MFI', 'التعلم الآلي'],
+          datasets: [{
+            label: 'دقة المؤشرات',
+            data: [82, 75, 68, 79, 85],
+            backgroundColor: [
+              'rgba(108, 92, 231, 0.7)',
+              'rgba(0, 184, 148, 0.7)',
+              'rgba(253, 203, 110, 0.7)',
+              'rgba(9, 132, 227, 0.7)',
+              'rgba(214, 48, 49, 0.7)'
+            ],
+            borderColor: [
+              'rgba(108, 92, 231, 1)',
+              'rgba(0, 184, 148, 1)',
+              'rgba(253, 203, 110, 1)',
+              'rgba(9, 132, 227, 1)',
+              'rgba(214, 48, 49, 1)'
+            ],
+            borderWidth: 1
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            y: {
+              beginAtZero: true,
+              max: 100,
+              ticks: {
+                callback: function(value) {
+                  return value + '%';
+                }
+              }
+            }
+          },
+          plugins: {
+            legend: {
+              display: false
+            }
+          }
+        }
+      });
+      
+      // إضافة معالجات الأحداث
+      document.getElementById('upload-chart-btn').addEventListener('click', function() {
+        window.location.href = 'chart-upload-advanced.html';
+      });
+      
+      document.getElementById('refresh-btn').addEventListener('click', function() {
+        // تحديث البيانات من الخادم
+        alert('جاري تحديث البيانات...');
+      });
+      
+      document.getElementById('view-all-btn').addEventListener('click', function() {
+        window.location.href = 'performance.html';
+      });
+    });
+  </script>
+</body>
+</html>

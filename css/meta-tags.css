@@ -1,0 +1,131 @@
+/**
+ * أنماط إضافية للتجاوب مع الأجهزة المحمولة
+ */
+
+/* تحسين عرض الصفحة على الأجهزة المحمولة */
+@media (max-width: 767px) {
+  /* تحسين عرض البطاقات */
+  .card {
+    padding: 10px;
+  }
+  
+  /* تحسين عرض الأزرار */
+  .btn {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+  
+  /* تحسين عرض الشاشة الرئيسية */
+  .upload-section {
+    padding: 20px 10px;
+  }
+  
+  /* تحسين عرض نتائج التحليل */
+  #analysis-results {
+    padding: 10px 0;
+  }
+  
+  /* تحسين عرض المؤشرات */
+  .indicators-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  /* تحسين عرض الرسم البياني */
+  .chart-wrapper {
+    height: 250px;
+  }
+}
+
+/* تحسين عرض الصفحة على الأجهزة اللوحية */
+@media (min-width: 768px) and (max-width: 991px) {
+  /* تحسين عرض البطاقات */
+  .card {
+    padding: 15px;
+  }
+  
+  /* تحسين عرض الرسم البياني */
+  .chart-wrapper {
+    height: 350px;
+  }
+}
+
+/* تحسين عرض الصفحة على الشاشات الصغيرة */
+@media (max-width: 575px) {
+  /* تحسين عرض الشاشة الرئيسية */
+  .upload-section {
+    padding: 15px 5px;
+  }
+  
+  /* تحسين عرض نتائج التحليل */
+  .trend-info {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  
+  /* تحسين عرض المؤشرات */
+  .indicator {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  /* تحسين عرض الرسم البياني */
+  .chart-wrapper {
+    height: 200px;
+  }
+  
+  /* تحسين عرض الأزرار */
+  .btn {
+    padding: 8px 16px;
+    font-size: 14px;
+  }
+}
+
+/* تحسين عرض الصفحة على الشاشات الكبيرة */
+@media (min-width: 1200px) {
+  /* تحسين عرض الرسم البياني */
+  .chart-wrapper {
+    height: 500px;
+  }
+}
+
+/* تحسين عرض الصفحة على الشاشات المتوسطة */
+@media (min-width: 992px) and (max-width: 1199px) {
+  /* تحسين عرض الرسم البياني */
+  .chart-wrapper {
+    height: 450px;
+  }
+}
+
+/* تحسين عرض الصفحة على جميع الأجهزة */
+html, body {
+  overflow-x: hidden;
+}
+
+/* تحسين عرض الصور */
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* تحسين عرض النصوص */
+p, h1, h2, h3, h4, h5, h6 {
+  overflow-wrap: break-word;
+}
+
+/* تحسين عرض الجداول */
+table {
+  width: 100%;
+  overflow-x: auto;
+  display: block;
+}
+
+/* تحسين عرض النماذج */
+input, select, textarea {
+  max-width: 100%;
+}
+
+/* تحسين عرض الروابط */
+a {
+  word-break: break-word;
+}

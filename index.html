@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="theme-color" content="#6c5ce7">
+  <title>محلل الشارت - Binary Trader DZ</title>
+  <link rel="icon" href="imgs/258de5ad-9442-4325-9296-ba2650d2c59a.png" type="image/png">
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/charts.css">
+  <link rel="stylesheet" href="css/background.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <div class="bg-animation">
+    <div class="light-1"></div>
+    <div class="light-2"></div>
+    <div class="light-3"></div>
+  </div>
+  <div class="bg-grid"></div>
+  
+  <div class="container">
+    <header>
+      <div class="logo-container">
+        <img src="imgs/258de5ad-9442-4325-9296-ba2650d2c59a.png" alt="شعار Binary Trader DZ" class="site-logo">
+        <h1>Binary Trader DZ</h1>
+      </div>
+      <div class="connection-status">
+        <span id="connection-indicator" class="indicator"></span>
+        <span id="connection-text">جاري فحص الاتصال...</span>
+      </div>
+    </header>
+    
+    <main>
+      <section id="upload-section-dark" class="upload-section-dark">
+        <div class="side-decoration"></div>
+        <div class="upload-header">
+          <h2>تحليل صورة الشارت</h2>
+          <div class="upload-subtitle">قم بتحميل صورة الشارت للحصول على تحليل دقيق وتنبؤ بالشمعة القادمة</div>
+        </div>
+        
+        <div class="upload-area">
+          <div class="upload-icon">
+            <i class="chart-icon">📊</i>
+          </div>
+          <div class="upload-container">
+            <button id="select-file-btn" class="btn btn-glow">اختيار صورة</button>
+            <div class="upload-formats">الصيغ المدعومة: JPG, PNG, GIF</div>
+            <input type="file" id="chart-upload" accept="image/*" style="display: none;">
+          </div>
+        </div>
+        
+        <div class="upload-options">
+          <div class="option-group">
+            <div class="option-title">إعدادات التحليل</div>
+            
+            <div class="timeframe-selector">
+              <label for="timeframe">الإطار الزمني:</label>
+              <select id="timeframe" class="form-control">
+                <option value="1">1 دقيقة</option>
+                <option value="5" selected>5 دقائق</option>
+                <option value="15">15 دقيقة</option>
+                <option value="30">30 دقيقة</option>
+                <option value="60">1 ساعة</option>
+              </select>
+            </div>
+            
+            <div class="analysis-options">
+              <label class="checkbox-container">
+                <input type="checkbox" id="auto-detect-timeframe" checked>
+                <span class="checkmark"></span>
+                <span class="checkbox-label">اكتشاف الإطار الزمني تلقائياً</span>
+              </label>
+              <label class="checkbox-container">
+                <input type="checkbox" id="enhance-image" checked>
+                <span class="checkmark"></span>
+                <span class="checkbox-label">تحسين جودة الصورة</span>
+              </label>
+            </div>
+          </div>
+        </div>
+        
+        <div class="upload-footer">
+          <div class="upload-tip">
+            <div class="tip-icon">💡</div>
+            <div class="tip-text">نصيحة: للحصول على أفضل النتائج، استخدم صورة واضحة للشارت تظهر الشموع بوضوح</div>
+          </div>
+        </div>
+      </section>
+      
+      <section id="loading" style="display: none;">
+        <div class="loader"></div>
+        <p>جاري تحليل الصورة...</p>
+        <div class="progress-bar-container">
+          <div class="progress-bar-fill" id="analysis-progress-bar" style="width: 0%"></div>
+        </div>
+        <p id="progress-text">0%</p>
+        <div class="processing-steps">
+          <div class="step" id="step-1">
+            <span class="step-number">1</span>
+            <span class="step-text">تحسين جودة الصورة</span>
+            <span class="step-status pending">جاري...</span>
+          </div>
+          <div class="step" id="step-2">
+            <span class="step-number">2</span>
+            <span class="step-text">استخراج الشموع</span>
+            <span class="step-status">انتظار...</span>
+          </div>
+          <div class="step" id="step-3">
+            <span class="step-number">3</span>
+            <span class="step-text">تحليل الاتجاه والأنماط</span>
+            <span class="step-status">انتظار...</span>
+          </div>
+          <div class="step" id="step-4">
+            <span class="step-number">4</span>
+            <span class="step-text">حساب نقاط الدخول والخروج</span>
+            <span class="step-status">انتظار...</span>
+          </div>
+        </div>
+      </section>
+      
+      <section id="prediction-result" style="display: none;">
+        <div class="prediction-result up" id="prediction-container">
+          <div class="arrow-up" id="prediction-arrow"></div>
+        </div>
+      </section>
+      
+      <section id="analysis-results" style="display: none;">
+        <div class="results-header">
+          <h2>نتائج التحليل</h2>
+          <div class="analysis-meta">
+            <span id="analysis-date">تاريخ التحليل: </span>
+            <span id="timeframe-display">الإطار الزمني: 5 دقائق</span>
+            <span id="candles-count">عدد الشموع المستخرجة: 0</span>
+          </div>
+        </div>
+        
+        <div class="results-container">
+          <div class="chart-section">
+            <h3>الرسم البياني</h3>
+            <div class="chart-wrapper">
+              <canvas id="chart-container"></canvas>
+            </div>
+            <div class="chart-tabs">
+              <button class="chart-tab active" data-chart="price">السعر</button>
+              <button class="chart-tab" data-chart="candles">الشموع</button>
+              <button class="chart-tab" data-chart="indicators">المؤشرات</button>
+            </div>
+          </div>
+          
+          <div class="market-trend">
+            <h3>اتجاه السوق</h3>
+            <div class="trend-info">
+              <div id="trend-arrow" class="trend-arrow">↑</div>
+              <div class="trend-details">
+                <p id="trend-description">اتجاه صاعد</p>
+                <div class="trend-strength-container">
+                  <span>قوة الاتجاه: </span>
+                  <span id="trend-strength">75%</span>
+                  <div class="progress-container">
+                    <div id="trend-strength-bar" class="progress-bar" style="width: 75%;"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="support-resistance">
+            <h3>الدعم والمقاومة</h3>
+            <div class="price-levels">
+              <div id="resistance-levels" class="levels resistance-levels">
+                <!-- سيتم إضافة مستويات المقاومة هنا -->
+              </div>
+              
+              <div class="current-price">
+                <span>السعر الحالي: </span>
+                <span id="current-price-value">1.2800</span>
+              </div>
+              
+              <div id="support-levels" class="levels support-levels">
+                <!-- سيتم إضافة مستويات الدعم هنا -->
+              </div>
+            </div>
+          </div>
+          
+          <div class="candle-analysis">
+            <h3>تحليل الشمعة</h3>
+            <div class="analysis-details">
+              <div class="detail-row">
+                <span>النمط: </span>
+                <span id="pattern-name">نمط البلع الصاعد</span>
+                <div class="pattern-info tooltip" data-tooltip="معلومات عن النمط">ℹ️</div>
+              </div>
+              <div class="detail-row">
+                <span>الاتجاه المتوقع: </span>
+                <div id="prediction-direction" class="indicator-up">
+                  <div class="arrow-up"></div>
+                  <span>صعود</span>
+                </div>
+              </div>
+              <div class="detail-row">
+                <span>مستوى الثقة: </span>
+                <span id="confidence-level">80%</span>
+                <div class="progress-container">
+                  <div id="confidence-meter" class="progress-bar" style="width: 80%;"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="breakout-analysis">
+            <h3>تحليل الاختراق</h3>
+            <div class="analysis-details">
+              <div class="detail-row">
+                <span id="breakout-type">احتمالية اختراق المقاومة</span>
+              </div>
+              <div class="detail-row">
+                <span>الاحتمالية: </span>
+                <span id="breakout-probability">75%</span>
+                <div class="progress-container">
+                  <div id="probability-meter" class="progress-bar progress-secondary" style="width: 75%;"></div>
+                </div>
+              </div>
+              <div class="detail-row">
+                <span>المستوى المستهدف: </span>
+                <span id="target-level">1.2920</span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="entry-exit">
+            <h3>نقاط الدخول والخروج</h3>
+            <div class="analysis-details">
+              <div class="detail-row">
+                <span>نقطة الدخول: </span>
+                <span id="entry-point">1.2800</span>
+              </div>
+              <div class="detail-row">
+                <span>الهدف: </span>
+                <span id="target-point">1.2920</span>
+              </div>
+              <div class="detail-row">
+                <span>وقف الخسارة: </span>
+                <span id="stop-loss">1.2750</span>
+              </div>
+              <div class="detail-row">
+                <span>نسبة المخاطرة/العائد: </span>
+                <span id="risk-reward">2.4</span>
+              </div>
+              <div class="detail-row">
+                <span>المدة المقترحة: </span>
+                <span id="recommended-duration">3 دقائق</span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="technical-indicators">
+            <h3>المؤشرات الفنية</h3>
+            <div class="indicators-grid">
+              <div class="indicator">
+                <span>RSI: </span>
+                <span id="rsi-value">65</span>
+                <div class="indicator-status" id="rsi-status"></div>
+              </div>
+              <div class="indicator">
+                <span>MACD: </span>
+                <span id="macd-value">0.5</span>
+                <div class="indicator-status" id="macd-status"></div>
+              </div>
+              <div class="indicator">
+                <span>Bollinger: </span>
+                <span id="bollinger-value">70%</span>
+                <div class="indicator-status" id="bollinger-status"></div>
+              </div>
+              <div class="indicator">
+                <span>MFI: </span>
+                <span id="mfi-value">60</span>
+                <div class="indicator-status" id="mfi-status"></div>
+              </div>
+              <div class="indicator">
+                <span>SMA5: </span>
+                <span id="sma5-value">1.2790</span>
+                <div class="indicator-status" id="sma5-status"></div>
+              </div>
+              <div class="indicator">
+                <span>SMA10: </span>
+                <span id="sma10-value">1.2750</span>
+                <div class="indicator-status" id="sma10-status"></div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="recommendation-summary">
+            <h3>ملخص التوصية</h3>
+            <div class="recommendation-box">
+              <div class="recommendation-action" id="recommendation-action">
+        <div class="arrow-up"></div>
+        <span>شراء</span>
+      </div>
+              <div class="recommendation-details">
+                <div class="detail-row">
+                  <span>الثقة: </span>
+                  <span id="recommendation-confidence">80%</span>
+                </div>
+                <div class="detail-row">
+                  <span>المخاطرة/العائد: </span>
+                  <span id="recommendation-risk-reward">2.4</span>
+                </div>
+                <div class="detail-row">
+                  <span>المدة: </span>
+                  <span id="recommendation-duration">3 دقائق</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="actions">
+            <button id="save-analysis-btn" class="btn btn-primary">حفظ التحليل</button>
+            <button id="new-analysis-btn" class="btn btn-secondary">تحليل جديد</button>
+            <button id="export-pdf-btn" class="btn btn-tertiary">تصدير PDF</button>
+          </div>
+        </div>
+      </section>
+    </main>
+    
+    <footer>
+      <p>© 2025 Binary Trader DZ - جميع الحقوق محفوظة</p>
+      <div class="version-info">
+        <span id="version">الإصدار: 2.0.0</span>
+        <span id="processing-mode">وضع المعالجة: معالجة الصور</span>
+      </div>
+    </footer>
+  </div>
+  
+  <!-- تضمين ملفات JavaScript -->
+  <script src="js/api-connector.js"></script>
+  <script src="js/api-service.js"></script>
+  <script src="js/chart-data-extractor.js"></script>
+  <script src="js/ml-chart-processor.js"></script>
+  <script src="js/chart-analyzer-connector.js"></script>
+  <script src="js/chart-analyzer-ui.js"></script>
+  <script src="js/connection-monitor.js"></script>
+  <script src="main.js"></script>
+  <script>
+    // تنفيذ الكود بعد تحميل الصفحة
+    window.onload = function() {
+      // تعطيل معالجات الأحداث من main.js
+      window.setupEventHandlers = function() {
+        console.log("تم تعطيل معالجات الأحداث القديمة");
+      };
+      
+      // تعريف العناصر مباشرة
+      var fileInput = document.getElementById('chart-upload');
+      var selectFileBtn = document.getElementById('select-file-btn');
+      var loadingSection = document.getElementById('loading');
+      var uploadSection = document.getElementById('upload-section-dark');
+      var predictionSection = document.getElementById('prediction-result');
+      var analysisResults = document.getElementById('analysis-results');
+      var progressBar = document.getElementById('analysis-progress-bar');
+      var progressText = document.getElementById('progress-text');
+      var predictionContainer = document.getElementById('prediction-container');
+      var predictionArrow = document.getElementById('prediction-arrow');
+      
+      // متغير لمنع المعالجة المزدوجة
+      var isProcessing = false;
+      
+      // زر اختيار الملف
+      if (selectFileBtn) {
+        selectFileBtn.onclick = function() {
+          if (fileInput) {
+            fileInput.value = '';
+            fileInput.click();
+          }
+        };
+      }
+      
+      // معالج تغيير الملف
+      if (fileInput) {
+        fileInput.onchange = function(e) {
+          if (e.target.files.length > 0 && !isProcessing) {
+            isProcessing = true;
+            
+            if (uploadSection) uploadSection.style.display = 'none';
+            if (loadingSection) loadingSection.style.display = 'block';
+            if (analysisResults) analysisResults.style.display = 'none';
+            if (predictionSection) predictionSection.style.display = 'none';
+            
+            // بدء شريط التقدم
+            var progress = 0;
+            var interval = setInterval(function() {
+              progress += 100 / 150;
+              if (progress >= 100) {
+                progress = 100;
+                clearInterval(interval);
+                
+                setTimeout(function() {
+                  if (loadingSection) loadingSection.style.display = 'none';
+                  
+                  // تحديد اتجاه عشوائي
+                  var isUp = Math.random() > 0.5;
+                  
+                  if (predictionContainer && predictionArrow) {
+                    if (isUp) {
+                      predictionContainer.className = 'prediction-result up';
+                      predictionArrow.className = 'arrow-up';
+                    } else {
+                      predictionContainer.className = 'prediction-result down';
+                      predictionArrow.className = 'arrow-down';
+                    }
+                    
+                    if (predictionSection) predictionSection.style.display = 'block';
+                  }
+                  
+                  // إعادة تعيين بعد 3 ثوانٍ
+                  setTimeout(function() {
+                    isProcessing = false;
+                  }, 3000);
+                }, 500);
+              }
+              
+              if (progressBar) progressBar.style.width = progress + '%';
+              if (progressText) progressText.textContent = Math.round(progress) + '%';
+            }, 100);
+          }
+        };
+      }
+      
+      // زر التحليل الجديد
+      var newAnalysisBtn = document.getElementById('new-analysis-btn');
+      if (newAnalysisBtn) {
+        newAnalysisBtn.onclick = function() {
+          if (analysisResults) analysisResults.style.display = 'none';
+          if (predictionSection) predictionSection.style.display = 'none';
+          if (uploadSection) uploadSection.style.display = 'block';
+          if (fileInput) fileInput.value = '';
+          isProcessing = false;
+        };
+      }
+    };
+  </script>
+</body>
+</html>
