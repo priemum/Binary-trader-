@@ -8,7 +8,7 @@ class VersionCompatibility {
     // إصدارات المكتبات المدعومة
     this.supportedVersions = {
       'chart-analyzer': ['1.0', '1.1', '1.2'],
-      'ml-integration': ['1.0', '1.1'],
+      'ml-integration': ['1.0', '1.1'],   
       'pattern-recognition': ['1.0', '1.1', '1.2', '1.3']
     };
     
